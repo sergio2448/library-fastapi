@@ -3,14 +3,19 @@ from datetime import datetime
 import peewee
 
 from app.v1.utils.db import db
-from .user_model import User
 
 
-class Todo(peewee.Model):
+class Book(peewee.Model):
     title = peewee.CharField()
+    author = peewee.CharField()
+    category = peewee.CharField()
+    language = peewee.CharField()
+    state = peewee.CharField()
     created_at = peewee.DateTimeField(default=datetime.now)
-    is_done = peewee.BooleanField(default=False)
-    user = peewee.ForeignKeyField(User, backref="todos")
+    days_limit = peewee.IntegerField()
+    location = peewee.CharField()
+    pages_number = peewee.IntegerField()
+    edition = peewee.IntegerField()
 
     class Meta:
         database = db

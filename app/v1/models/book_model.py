@@ -5,7 +5,6 @@ import peewee
 from app.v1.utils.db import db
 
 
-
 class Book(peewee.Model):
     title = peewee.CharField()
     author = peewee.CharField()

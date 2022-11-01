@@ -1,4 +1,5 @@
 import peewee
+from datetime import datetime
 
 from app.v1.utils.db import db
 from .lending_model import Lending

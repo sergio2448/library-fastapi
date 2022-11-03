@@ -22,6 +22,14 @@ def create_user(user: user_schema.User = Body(...)):
     ### Args
     The app can recive next fields into a JSON
     - email: A valid email
+    -first_name: string minimun of 3 char
+    -last_name: string minimun of 3 char
+    -address: string minimun of 5 char
+    -phone_number: string minimun of 3 char
+    -state: string, "available" is deafult.
+    -gender: string "M" or "F"
+    -created_at, datetime
+    -updated_at, datime
 
     ### Returns
     - user: User info

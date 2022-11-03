@@ -35,7 +35,7 @@ class UserBase(BaseModel):
     state: str = Field(default= "Available")
     gender: str = Field(...)
     created_at: datetime = Field(default=datetime.now())
-    updated_at: datetime = Field(default=created_at)
+    updated_at: datetime = Field(default=datetime.now())
 
 class User(UserBase):
     id: int = Field(...)

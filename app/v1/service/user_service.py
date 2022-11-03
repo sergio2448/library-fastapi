@@ -6,25 +6,15 @@ from app.v1.models.user_model import User as UserModel
 from app.v1.schema import user_schema
 
 # crear usuario
-def create_user(user: user_schema.UserBase):
-    
-    get_user = UserModel.filter((UserModel.email == user.email) | (UserModel.username == user.username)).first()
-    if get_user:
-        msg = "Email already registered"
-        if get_user.username == user.username:
-            msg = "Username already registered"
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=msg
-        )
+def create_user(user: user_schema.User):
     db_user = UserModel(
-        user_email = user.email,
-        user_first_name = user.first_name,
-        user_last_name = user.last_name,
-        user_address = user.address,
-        user_phone_number = user.phone_number,
-        user_state = user.state,
-        user_gender = user.gender,
+        email = user.email,
+        first_name = user.first_name,
+        last_name = user.last_name,
+        address = user.address,
+        phone_number = user.phone_number,
+        state = user.state,
+        gender = user.gender,
         created_at = user.created_at,
         update_at = user.updated_at
     )

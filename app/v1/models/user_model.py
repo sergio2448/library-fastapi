@@ -13,7 +13,7 @@ class User(peewee.Model):
     state = peewee.CharField()
     gender = peewee.CharField()
     created_at=  peewee.DateTimeField(default=datetime.now)
-    updated_at = peewee.DateTimeField(default=created_at)
+    updated_at = peewee.DateTimeField(default=datetime.now)
 
     class Meta:
         database = db

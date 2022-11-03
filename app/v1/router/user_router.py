@@ -22,8 +22,6 @@ def create_user(user: user_schema.User = Body(...)):
     ### Args
     The app can recive next fields into a JSON
     - email: A valid email
-    - username: Unique username
-    - password: Strong password for authentication
 
     ### Returns
     - user: User info

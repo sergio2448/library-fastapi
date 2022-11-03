@@ -7,6 +7,7 @@ from app.v1.service import user_service
 from app.v1.utils.db import get_db
 
 router = APIRouter(prefix="/api/v1")
+#Create User
 @router.post(
     "/user/",
     tags=["users"],
@@ -35,3 +36,14 @@ def create_user(user: user_schema.User = Body(...)):
     - user: User info
     """
      return user_service.create_user(user)
+
+# Update User
+@router.patch(
+    "/user/{user_id}/edit",
+    tags=["users"],
+    status_code=status.HTTP_200_OK,
+    response_model=user_schema.User,
+    dependencies=[Depends(get_db)]
+)
+def edit_user(user_id: int, user: user_schema.User = Body(...) ):
+    return user_service.update_user(user_id, user)

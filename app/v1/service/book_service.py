@@ -89,3 +89,42 @@ def get_book(book_id: int):
         created_at = book.created_at,
         updated_at = book.updated_at
     )
+
+def update_state_book(state: str, book_id: int):
+    book = BookModel.filter((BookModel.id == book_id)).first()
+
+    if not book:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Book not found"
+        )
+
+    book.state = state
+    book.save()
+
+    return book_schema.Book(
+        id = book.id,
+        title = book.title,
+        author = book.author,
+        category = book.category,
+        language = book.language,
+        state = book.state,
+        days_limit = book.days_limit,
+        location = book.location,
+        pages_number = book.pages_number,
+        edition = book.edition,
+        created_at = book.created_at,
+        updated_at = book.updated_at
+    )
+
+
+def delete_book(book_id: int):
+    book = BookModel.filter((BookModel.id == book_id)).first()
+
+    if not book:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Book not found"
+        )
+
+    book.delete_instance()

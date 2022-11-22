@@ -44,7 +44,6 @@ def update_user(user_id: int, user: user_schema.User):
         db_user.phone_number = user.phone_number
         db_user.state = user.state
         db_user.gender = user.gender
-        db_user.id = user.id
 
         db_user.save()
 

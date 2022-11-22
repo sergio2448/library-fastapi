@@ -11,11 +11,12 @@ class Book(peewee.Model):
     category = peewee.CharField()
     language = peewee.CharField()
     state = peewee.CharField()
-    created_at = peewee.DateTimeField(default=datetime.now)
     days_limit = peewee.IntegerField()
     location = peewee.CharField()
     pages_number = peewee.IntegerField()
     edition = peewee.IntegerField()
+    created_at = peewee.DateTimeField(default=datetime.now)
+    updated_at = peewee.DateTimeField(default=datetime.now)
 
     class Meta:
         database = db

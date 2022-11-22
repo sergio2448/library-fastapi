@@ -90,38 +90,41 @@ def get_book(book_id: int):
         updated_at = book.updated_at
     )
 
-@router.patch(
-    "/{book_id}/state",
-    tags=["books"],
-    status_code=status.HTTP_200_OK,
-    response_model=book_schema.Book,
-    dependencies=[Depends(get_db)]
-)
-def update_book(
-    book_state: str = Body(...),
-    book_id: int = Path(
-        ...,
-        gt=0
-    ),
-    #current_user: User = Depends(get_current_user)
-):
-    return book_service.update_state_book(book_state, book_id)
+def update_state_book(state: str, book_id: int):
+    book = BookModel.filter((BookModel.id == book_id)).first()
 
-@router.delete(
-    "/{book_id}/",
-    tags=["books"],
-    status_code=status.HTTP_200_OK,
-    dependencies=[Depends(get_db)]
-)
-def delete_book(
-    book_id: int = Path(
-        ...,
-        gt=0
-    ),
-    #current_user: User = Depends(get_current_user)
-):
-    book_service.delete_book(book_id)
+    if not book:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Book not found"
+        )
 
-    return {
-        'msg': 'Book has been deleted successfully'
-    }
+    book.state = state
+    book.save()
+
+    return book_schema.Book(
+        id = book.id,
+        title = book.title,
+        author = book.author,
+        category = book.category,
+        language = book.language,
+        state = book.state,
+        days_limit = book.days_limit,
+        location = book.location,
+        pages_number = book.pages_number,
+        edition = book.edition,
+        created_at = book.created_at,
+        updated_at = book.updated_at
+    )
+
+
+def delete_book(book_id: int):
+    book = BookModel.filter((BookModel.id == book_id)).first()
+
+    if not book:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Book not found"
+        )
+
+    book.delete_instance()

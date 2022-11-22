@@ -89,3 +89,39 @@ def get_book(book_id: int):
         created_at = book.created_at,
         updated_at = book.updated_at
     )
+
+@router.patch(
+    "/{book_id}/state",
+    tags=["books"],
+    status_code=status.HTTP_200_OK,
+    response_model=book_schema.Book,
+    dependencies=[Depends(get_db)]
+)
+def update_book(
+    book_state: str = Body(...),
+    book_id: int = Path(
+        ...,
+        gt=0
+    ),
+    #current_user: User = Depends(get_current_user)
+):
+    return book_service.update_state_book(book_state, book_id)
+
+@router.delete(
+    "/{book_id}/",
+    tags=["books"],
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(get_db)]
+)
+def delete_book(
+    book_id: int = Path(
+        ...,
+        gt=0
+    ),
+    #current_user: User = Depends(get_current_user)
+):
+    book_service.delete_book(book_id)
+
+    return {
+        'msg': 'Book has been deleted successfully'
+    }

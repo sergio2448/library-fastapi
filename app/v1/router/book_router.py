@@ -79,3 +79,4 @@ def delete_book(
 
     return {
         'msg': 'Book has been deleted successfully'
+    }

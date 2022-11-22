@@ -1,10 +1,11 @@
 # Creamos la rutas asociadas al usuario
 
 # importaciones
-from fastapi import APIRouter, Depends, status, Body
+from fastapi import APIRouter, Depends, status, Body, Path
 from app.v1.schema import user_schema
 from app.v1.service import user_service
 from app.v1.utils.db import get_db
+
 
 router = APIRouter(prefix="/api/v1")
 #Create User
@@ -47,3 +48,23 @@ def create_user(user: user_schema.User = Body(...)):
 )
 def edit_user(user_id: int, user: user_schema.User = Body(...) ):
     return user_service.update_user(user_id, user)
+
+# Delete User
+@router.delete(
+    "/{user_id}/",
+    tags=["users"],
+    status_code=status.HTTP_200_OK,
+    dependencies=[Depends(get_db)]
+)
+def delete_user(
+    user_id: int = Path(
+        ...,
+        gt=0
+    ),
+    #current_user: User = Depends(get_current_user)
+):
+    user_service.delete_user(user_id)
+
+    return {
+        'msg': 'user has been deleted successfully'
+    }

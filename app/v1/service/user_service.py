@@ -44,6 +44,7 @@ def update_user(user_id: int, user: user_schema.User):
         db_user.phone_number = user.phone_number
         db_user.state = user.state
         db_user.gender = user.gender
+        db_user.id = user.id
 
         db_user.save()
 
@@ -59,4 +60,17 @@ def update_user(user_id: int, user: user_schema.User):
         created_at=db_user.created_at,
         updated_at=db_user.updated_at
     )
-        
+
+#delete user
+
+def delete_user(user_id: int):
+    user = UserModel.filter((UserModel.id == user_id)).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
+    user.delete_instance()
+

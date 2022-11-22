@@ -45,7 +45,6 @@ def get_book(
 ):
     return book_service.get_book(book_id)
 
-
 @router.patch(
     "/{book_id}/state",
     tags=["books"],
@@ -80,4 +79,3 @@ def delete_book(
 
     return {
         'msg': 'Book has been deleted successfully'
-    }

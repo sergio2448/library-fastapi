@@ -18,11 +18,8 @@ router = APIRouter(prefix="/api/v1")
     dependencies=[Depends(get_db)]
 )
 def create_lending(
-    lending: lending_schema.LendingBase = Body(...),
-    user: User = Body(...),
-    book: Book = Body(...)
-):
-    return lending_service.create_lending(lending, user.id, book.id)
+    lending: lending_schema.LendingBase = Body(...)):
+    return lending_service.create_lending(lending)
 
 @router.get(
     "/{user_id}/last_lending",

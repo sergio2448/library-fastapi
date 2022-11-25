@@ -10,14 +10,14 @@ from app.v1.utils.db import get_db
 router = APIRouter(prefix="/api/v1")
 #Create User
 @router.post(
-    "/user/",
+    "/user",
     tags=["users"],
     status_code= status.HTTP_201_CREATED,
     response_model= user_schema.User,
     dependencies= [Depends(get_db)],
     summary= "Create a new user"
 )
-def create_user(user: user_schema.User = Body(...)):
+def create_user(user: user_schema.UserBase = Body(...)):
      """
     ## Create a new user in the app
 
@@ -46,7 +46,13 @@ def create_user(user: user_schema.User = Body(...)):
     response_model=user_schema.User,
     dependencies=[Depends(get_db)]
 )
-def edit_user(user_id: int, user: user_schema.User = Body(...) ):
+def edit_user(
+    user_id: int = Path(
+        ...,
+        gt=0
+    ), 
+        user: user_schema.User = Body(...) 
+    ):
     return user_service.update_user(user_id, user)
 
 # Delete User

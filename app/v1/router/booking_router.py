@@ -45,23 +45,6 @@ def get_booking(
 ):
     return booking_service.get_booking(booking_id)
 
-@router.patch(
-    "/{booking_id}/state",
-    tags=["bookings"],
-    status_code=status.HTTP_200_OK,
-    response_model=booking_schema.Booking,
-    dependencies=[Depends(get_db)]
-)
-def update_booking(
-    booking_state: str = Body(...),
-    booking_id: int = Path(
-        ...,
-        gt=0
-    ),
-    #current_user: User = Depends(get_current_user)
-):
-    return booking_service.update_state_booking(booking_state, booking_id)
-
 @router.delete(
     "/{booking_id}/",
     tags=["bookings"],

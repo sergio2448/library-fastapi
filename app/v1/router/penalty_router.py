@@ -45,23 +45,6 @@ def get_penalty(
 ):
     return penalty_service.get_penalty(penalty_id)
 
-@router.patch(
-    "/{penalty_id}/state",
-    tags=["penalties"],
-    status_code=status.HTTP_200_OK,
-    response_model=penalty_schema.Penalty,
-    dependencies=[Depends(get_db)]
-)
-def update_penalty(
-    penalty_state: str = Body(...),
-    penalty_id: int = Path(
-        ...,
-        gt=0
-    ),
-    #current_user: User = Depends(get_current_user)
-):
-    return penalty_service.update_state_penalty(penalty_state, penalty_id)
-
 @router.delete(
     "/{penalty_id}/",
     tags=["penalties"],

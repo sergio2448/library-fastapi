@@ -4,7 +4,7 @@ from app.v1.schema import penalty_schema
 from app.v1.models.penalty_model import Penalty as PenaltyModel
 
 
-def add_(penalty: penalty_schema.Penalty):
+def add_penalty(penalty: penalty_schema.Penalty):
 
     db_penalty = PenaltyModel(
         days_late = penalty.days_late,
@@ -40,7 +40,7 @@ def get_penalties():
                 days_late = penalty.days_late,
                 total_taxes = penalty.total_taxes,
                 state = penalty.state,
-                lending_id = penalty.lending_id,
+                lending_id = penalty.lending_id.id,
                 created_at = penalty.created_at,
             )
         )
@@ -61,28 +61,7 @@ def get_penalty(penalty_id: int):
         days_late = penalty.days_late,
         total_taxes = penalty.total_taxes,
         state = penalty.state,
-        lending_id = penalty.lending_id,
-        created_at = penalty.created_at,
-    )
-
-def update_state_penalty(state: str, penalty_id: int):
-    penalty = PenaltyModel.filter((PenaltyModel.id == penalty_id)).first()
-
-    if not penalty:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Penalty not found"
-        )
-
-    penalty.state = state
-    penalty.save()
-
-    return penalty_schema.Penalty(
-        id = penalty.id,
-        days_late = penalty.days_late,
-        total_taxes = penalty.total_taxes,
-        state = penalty.state,
-        lending_id = penalty.lending_id,
+        lending_id = penalty.lending_id.id,
         created_at = penalty.created_at,
     )
 

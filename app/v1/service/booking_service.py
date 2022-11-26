@@ -37,8 +37,8 @@ def get_bookings():
             booking_schema.Booking(
                 id = booking.id,
                 date_booking = booking.date_booking,
-                user_id = booking.user_id,
-                book_id = booking.book_id,
+                user_id = booking.user_id.id,
+                book_id = booking.book_id.id,
                 created_at = booking.created_at,
             )
         )
@@ -57,31 +57,10 @@ def get_booking(booking_id: int):
     return booking_schema.Booking(
         id = booking.id,
         date_booking = booking.date_booking,
-        user_id = booking.user_id,
-        book_id = booking.book_id,
+        user_id = booking.user_id.id,
+        book_id = booking.book_id.id,
         created_at = booking.created_at,
     )
-
-def update_state_booking(state: str, booking_id: int):
-    booking = BookingModel.filter((BookingModel.id == booking_id)).first()
-
-    if not booking:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Booking not found"
-        )
-
-    booking.state = state
-    booking.save()
-
-    return booking_schema.Booking(
-        id = booking.id,
-        date_booking = booking.date_booking,
-        user_id = booking.user_id,
-        book_id = booking.book_id,
-        created_at = booking.created_at,
-    )
-
 
 def delete_booking(booking_id: int):
     booking = BookingModel.filter((BookingModel.id == booking_id)).first()

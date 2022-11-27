@@ -62,6 +62,30 @@ def get_booking(booking_id: int):
         created_at = booking.created_at,
     )
 
+def get_booking_by_user_id(user_id: int):
+    bookings = BookingModel.filter(BookingModel.user_id == user_id).order_by(BookingModel.created_at.desc())
+
+    if not bookings:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
+
+    list_bookings = []
+    for booking in bookings:
+        list_bookings.append(
+            booking_schema.Booking(
+                id = booking.id,
+                date_booking = booking.date_booking,
+                user_id = booking.user_id.id,
+                book_id = booking.book_id.id,
+                created_at = booking.created_at,
+            )
+        )
+
+    return list_bookings
+
 def delete_booking(booking_id: int):
     booking = BookingModel.filter((BookingModel.id == booking_id)).first()
 

@@ -20,14 +20,19 @@ def add_booking(booking: booking_schema.BookingBase = Body(...)):
     return booking_service.add_booking(booking)
 
 @router.get(
-    "/bookings",
+    "/bookings/{user_id}",
     tags=["bookings"],
     status_code=status.HTTP_200_OK,
     response_model=List[booking_schema.Booking],
     dependencies=[Depends(get_db)]
 )
-def get_bookings():
-    return booking_service.get_bookings()
+def get_bookings_by_user_id(
+    user_id: int = Path(
+        ...,
+        gt=0
+    )
+):
+    return booking_service.get_booking_by_user_id(user_id)
 
 
 @router.get(

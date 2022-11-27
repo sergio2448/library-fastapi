@@ -45,6 +45,21 @@ def get_penalty(
 ):
     return penalty_service.get_penalty(penalty_id)
 
+@router.get(
+    "/penalty/{user_id}",
+    tags=["penalties"],
+    status_code=status.HTTP_200_OK,
+    response_model=penalty_schema.Penalty,
+    dependencies=[Depends(get_db)]
+)
+def get_penalty_user_id(
+    user_id: int = Path(
+        ...,
+        gt=0
+    )
+):
+    return penalty_service.get_penalties_by_user_id(user_id)
+
 @router.delete(
     "/{penalty_id}/",
     tags=["penalties"],

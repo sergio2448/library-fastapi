@@ -18,25 +18,25 @@ router = APIRouter(prefix="/api/v1")
     summary= "Create a new user"
 )
 def create_user(user: user_schema.UserBase = Body(...)):
-     """
-    ## Create a new user in the app
-
-    ### Args
-    The app can recive next fields into a JSON
-    - email: A valid email
-    -first_name: string minimun of 3 char
-    -last_name: string minimun of 3 char
-    -address: string minimun of 5 char
-    -phone_number: string minimun of 3 char
-    -state: string, "available" is deafult.
-    -gender: string "M" or "F"
-    -created_at, datetime
-    -updated_at, datime
-
-    ### Returns
-    - user: User info
     """
-     return user_service.create_user(user)
+        Create a new user in the app
+
+        Args
+        The app can recive next fields into a JSON
+        - email: A valid email
+        - first_name: string minimun of 3 char
+        - last_name: string minimun of 3 char
+        - address: string minimun of 5 char
+        - phone_number: string minimun of 3 char
+        - state: string "available" is deafult.
+        - gender: string "M" or "F"
+        - created_at: datetime
+        - updated_at: datetime
+
+        Returns
+        - user: User info
+    """
+    return user_service.create_user(user)
 
 # Update User
 @router.patch(
@@ -51,7 +51,7 @@ def edit_user(
         ...,
         gt=0
     ), 
-        user: user_schema.User = Body(...) 
+        user: user_schema.UserBase = Body(...) 
     ):
     return user_service.update_user(user_id, user)
 
@@ -72,5 +72,5 @@ def delete_user(
     user_service.delete_user(user_id)
 
     return {
-        'msg': 'user has been deleted successfully'
+        'msg': f'User with id: {user_id}, has been deleted successfully'
     }

@@ -38,12 +38,8 @@ def add_book(book: book_schema.Book):
     )
 
 def get_books():
-
-    """ if(is_done is None):
-        tasks_by_user = BookModel.filter(BookModel.user_id == user.id).order_by(BookModel.created_at.desc())
-    else:
-        tasks_by_user = BookModel.filter((BookModel.user_id == user.id) & (BookModel.is_done == is_done)).order_by(BookModel.created_at.desc()) """
-    books = BookModel.filter(BookModel.id == BookModel.id).order_by(BookModel.created_at.desc())
+    
+    books = BookModel.filter(BookModel.state == "Available").order_by(BookModel.created_at.desc())
 
     list_books = []
     for book in books:

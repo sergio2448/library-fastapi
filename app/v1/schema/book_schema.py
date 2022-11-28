@@ -1,8 +1,15 @@
 # Python
 from datetime import datetime
+from enum import Enum
 
 # Pydantic
 from pydantic import BaseModel, Field
+
+class BookState(Enum):
+    Available = "Available"
+    Borrowed = "Borrowed"
+    Unavailable = "Unavailable"
+    Reserved = "Reserved"
 
 class BookBase(BaseModel):
     title: str = Field(
@@ -25,10 +32,8 @@ class BookBase(BaseModel):
         min_length=1,
         max_length=60
     )
-    state: str = Field(
-        ...,
-        min_length=1,
-        max_length=60
+    state: BookState = Field(
+        ...
     )
     location: str = Field(
         ...,

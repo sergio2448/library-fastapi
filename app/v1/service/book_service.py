@@ -38,7 +38,7 @@ def add_book(book: book_schema.Book):
     )
 
 def get_books():
-    
+
     books = BookModel.filter(BookModel.state == "Available").order_by(BookModel.created_at.desc())
 
     list_books = []

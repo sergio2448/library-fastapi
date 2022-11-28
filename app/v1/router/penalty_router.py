@@ -61,7 +61,7 @@ def get_penalty_user_id(
     return penalty_service.get_penalties_by_user_id(user_id)
 
 @router.delete(
-    "/{penalty_id}/",
+    "/penalty/{penalty_id}",
     tags=["penalties"],
     status_code=status.HTTP_200_OK,
     dependencies=[Depends(get_db)]

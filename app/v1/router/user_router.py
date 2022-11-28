@@ -57,7 +57,7 @@ def edit_user(
 
 # Delete User
 @router.delete(
-    "/{user_id}/",
+    "/user/{user_id}/",
     tags=["users"],
     status_code=status.HTTP_200_OK,
     dependencies=[Depends(get_db)]

@@ -51,7 +51,7 @@ def get_booking(
     return booking_service.get_booking(booking_id)
 
 @router.delete(
-    "/{booking_id}/",
+    "/booking/{booking_id}",
     tags=["bookings"],
     status_code=status.HTTP_200_OK,
     dependencies=[Depends(get_db)]

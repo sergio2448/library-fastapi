@@ -67,6 +67,7 @@ def delete_user(user_id: int):
     user = UserModel.filter((UserModel.id == user_id)).first()
 
     if not user:
+        print('Hola desde user')
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="User not found"

@@ -61,7 +61,7 @@ def get_lending_user_id(
     return lending_service.get_lendings_by_user_id(user_id)
 
 @router.delete(
-    "/{lending_id}/",
+    "/lending/{lending_id}",
     tags=["lendings"],
     status_code=status.HTTP_200_OK,
     dependencies=[Depends(get_db)]

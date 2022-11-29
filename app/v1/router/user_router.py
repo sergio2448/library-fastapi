@@ -17,7 +17,7 @@ router = APIRouter(prefix="/api/v1")
     dependencies= [Depends(get_db)],
     summary= "Create a new user"
 )
-def create_user(user: user_schema.User = Body(...)):
+def create_user(user: user_schema.UserBase = Body(...)):
      """
     ## Create a new user in the app
 
@@ -43,11 +43,16 @@ def create_user(user: user_schema.User = Body(...)):
     "/user/{user_id}/edit",
     tags=["users"],
     status_code=status.HTTP_200_OK,
-    response_model=user_schema.User,
+    response_model=user_schema.UserBase,
     dependencies=[Depends(get_db)]
 )
-def edit_user(user_id: int, user: user_schema.User = Body(...) ):
-    return user_service.update_user(user_id, user)
+def edit_user(
+    user_id: int = Path(
+        ...,
+        gt=0
+    ),
+    user: user_schema.UserBase = Body(...) ):
+    return user_service.update_user(user_id, user)  
 
 # Delete User
 @router.delete(

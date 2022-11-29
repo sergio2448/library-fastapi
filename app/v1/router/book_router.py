@@ -63,7 +63,7 @@ def update_book(
     return book_service.update_state_book(book_state, book_id)
 
 @router.delete(
-    "/{book_id}/",
+   " /{book_id}/",
     tags=["books"],
     status_code=status.HTTP_200_OK,
     dependencies=[Depends(get_db)]

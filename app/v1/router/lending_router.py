@@ -1,75 +1,72 @@
-from fastapi import APIRouter, Depends, Body, Path
-from fastapi import status
+from fastapi import APIRouter, Depends, Body, status, Path
+
+from typing import List
+
 from app.v1.schema import lending_schema
 from app.v1.service import lending_service
 from app.v1.utils.db import get_db
-from app.v1.schema.user_schema import User
-from app.v1.schema.book_schema import Book
+
 
 router = APIRouter(prefix="/api/v1")
-
-#create
 
 @router.post(
     "/lending",
     tags=["lendings"],
     status_code=status.HTTP_201_CREATED,
-    response_model= lending_schema.Lending,
+    response_model=lending_schema.Lending,
     dependencies=[Depends(get_db)]
 )
-def create_lending(
-    lending: lending_schema.LendingBase = Body(...)):
-    return lending_service.create_lending(lending)
+def add_lending(lending: lending_schema.LendingBase = Body(...)):
+    return lending_service.add_lending(lending)
 
 @router.get(
-    "/{user_id}/last_lending",
+    "/lendings",
     tags=["lendings"],
-    status_code=status.HTTP_201_CREATED,
-    response_model= lending_schema.Lending,
+    status_code=status.HTTP_200_OK,
+    response_model=List[lending_schema.Lending],
     dependencies=[Depends(get_db)]
-
 )
+def get_lendings():
+    return lending_service.get_lendings()
 
-def get_last_lending(
+
+@router.get(
+    "/lending/{lending_id}",
+    tags=["lendings"],
+    status_code=status.HTTP_200_OK,
+    response_model=lending_schema.Lending,
+    dependencies=[Depends(get_db)]
+)
+def get_lending(
+    lending_id: int = Path(
+        ...,
+        gt=0
+    )
+):
+    return lending_service.get_lending(lending_id)
+
+@router.get(
+    "/lending/{user_id}",
+    tags=["lendings"],
+    status_code=status.HTTP_200_OK,
+    response_model=lending_schema.Lending,
+    dependencies=[Depends(get_db)]
+)
+def get_lending_user_id(
     user_id: int = Path(
         ...,
         gt=0
     )
 ):
-    return lending_service.get_last_lending(user_id)
-
-
-@router.get(
-    "/user/{user_id}/lendings",
-    tags=["lendings"],
-    status_code=status.HTTP_201_CREATED,
-    response_model= lending_schema.Lending,
-    dependencies=[Depends(get_db)]
-
-)
-
-def get_lendings(
-    user_id: int = Path(
-        ...,
-        gt=0
-    )
-):
-    return lending_service.get_lending(user_id)
-
-
-
-
-
-
-
+    return lending_service.get_lendings_by_user_id(user_id)
 
 @router.delete(
-   " lending/{lending_id}/",
+    "/lending/{lending_id}",
     tags=["lendings"],
     status_code=status.HTTP_200_OK,
     dependencies=[Depends(get_db)]
 )
-def delete_delete(
+def delete_lending(
     lending_id: int = Path(
         ...,
         gt=0
@@ -79,5 +76,5 @@ def delete_delete(
     lending_service.delete_lending(lending_id)
 
     return {
-        'msg': 'lending has been deleted successfully'
+        'msg': 'Lending has been deleted successfully'
     }

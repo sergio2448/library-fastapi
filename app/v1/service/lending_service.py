@@ -1,12 +1,23 @@
 from fastapi import HTTPException, status
+
 from app.v1.schema import lending_schema
 from app.v1.models.lending_model import Lending as LendingModel
-from app.v1.schema import user_schema
-from app.v1.schema import book_schema
 
-def create_lending(lending: lending_schema.Lending):
+
+def add_lending(lending: lending_schema.Lending):
 
     db_lending = LendingModel(
+        start_at = lending.start_at,
+        end_at = lending.end_at,
+        user_id = lending.user_id,
+        book_id = lending.book_id,
+        created_at = lending.created_at,
+    )
+
+    db_lending.save()
+
+    return lending_schema.Lending(
+        id = db_lending.id,
         start_at = lending.start_at,
         end_at = lending.end_at,
         user_id = lending.user_id,
@@ -14,59 +25,78 @@ def create_lending(lending: lending_schema.Lending):
         created_at = lending.created_at
     )
 
-    db_lending.save()
+def get_lendings():
 
-    return lending_schema.Lending(
-        id = db_lending.id,
-        start_at= db_lending.start_at,
-        end_at= db_lending.end_at,
-        user_id = lending.user_id,
-        book_id = lending.book_id,
-        created_at = db_lending.created_at
-    )
+    """ if(is_done is None):
+        tasks_by_user = LendingModel.filter(LendingModel.user_id == user.id).order_by(LendingModel.created_at.desc())
+    else:
+        tasks_by_user = LendingModel.filter((LendingModel.user_id == user.id) & (LendingModel.is_done == is_done)).order_by(LendingModel.created_at.desc()) """
+    lendings = LendingModel.filter(LendingModel.id == LendingModel.id).order_by(LendingModel.created_at.desc())
 
-def get_last_lending(user_id: int):
-    lending = LendingModel.filter(LendingModel.user_id == user_id).first()
-    if not lending:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="The User has not lendings"
-        )
-    return lending_schema.Lending(
-        id = lending.id,
-        start_at= lending.start_at,
-        end_at= lending.end_at,
-        created_at = lending.created_at
-    )
-
-def get_lending(user_id: int):
-    lendings = LendingModel.filter(LendingModel.user_id == user_id).order_by(LendingModel.created_at.desc())
-
-    lendings_list = []
+    list_lendings = []
     for lending in lendings:
-        lendings_list.append(
-            lending_schema.Lending(
+        list_lendings.append(lending_schema.Lending(
                 id = lending.id,
                 start_at = lending.start_at,
-                end_at=lending.end_at,
-                user_id= lending.user_id,
-                book_id= lending.book_id,
-                created_at= lending.created_at
+                end_at = lending.end_at,
+                user_id = lending.user_id.id,
+                book_id = lending.book_id.id,
+                created_at = lending.created_at,
             )
         )
-    return lendings_list
 
-  
+    return list_lendings
 
-
-
-def delete_lending(lending_id: int):
+def get_lending(lending_id: int):
     lending = LendingModel.filter((LendingModel.id == lending_id)).first()
 
     if not lending:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="lending not found"
+            detail="Lending not found"
+        )
+
+    return lending_schema.Lending(
+        id = lending.id,
+        start_at = lending.start_at,
+        end_at = lending.end_at,
+        user_id = lending.user_id.id,
+        book_id = lending.book_id.id,
+        created_at = lending.created_at
+    )
+
+def get_lendings_by_user_id(user_id: int):
+    lendings = LendingModel.filter((LendingModel.Lending.user_id.id == user_id)).order_by(LendingModel.created_at.desc())
+    
+    if not lendings:
+        print(lendings)
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Lending not found"
+        )
+
+    list_lendings = []
+    for lending in lendings:
+        list_lendings.append(lending_schema.Lending(
+                id = lending.id,
+                start_at = lending.start_at,
+                end_at = lending.end_at,
+                user_id = lending.user_id.id,
+                book_id = lending.book_id.id,
+                created_at = lending.created_at,
+            )
+        )
+
+    return list_lendings
+
+
+def delete_lending(lending_id: int):
+
+    lending = LendingModel.filter((LendingModel.id == lending_id)).first()
+    if not lending:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Lending not found"
         )
 
     lending.delete_instance()

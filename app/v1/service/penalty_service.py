@@ -44,10 +44,13 @@ def get_penalties():
                 state = penalty.state,
                 lending_id = penalty.lending_id.id,
                 created_at = penalty.created_at,
-            )
+
+                )
         )
 
     return list_penalties
+
+
 
 def get_penalty(penalty_id: int):
     penalty = PenaltyModel.filter((PenaltyModel.id == penalty_id)).first()

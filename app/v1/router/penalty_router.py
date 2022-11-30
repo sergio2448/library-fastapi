@@ -46,10 +46,10 @@ def get_penalty(
     return penalty_service.get_penalty(penalty_id)
 
 @router.get(
-    "/penalty/{user_id}",
+    "/penalty/{user_id}/user",
     tags=["penalties"],
     status_code=status.HTTP_200_OK,
-    response_model=penalty_schema.Penalty,
+    response_model=List[penalty_schema.Penalty],
     dependencies=[Depends(get_db)]
 )
 def get_penalty_user_id(

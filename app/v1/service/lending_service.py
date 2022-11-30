@@ -90,7 +90,7 @@ def get_lendings_by_user_id(user_id: int):
 
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Lending not found"
+            detail=f"User with id: {user_id} has not lendings"
         )
 
     list_lendings = []

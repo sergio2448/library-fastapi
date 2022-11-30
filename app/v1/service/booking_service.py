@@ -2,9 +2,14 @@ from fastapi import HTTPException, status
 
 from app.v1.schema import booking_schema
 from app.v1.models.booking_model import Booking as BookingModel
+from app.v1.service.book_service import get_book
+from app.v1.service.user_service import get_user_by_id
 
 
 def add_booking(booking: booking_schema.Booking):
+
+    book = get_book(booking.book_id)
+    user = get_user_by_id(booking.user_id)
 
     db_booking = BookingModel(
         date_booking = booking.date_booking,
@@ -13,7 +18,18 @@ def add_booking(booking: booking_schema.Booking):
         created_at = booking.created_at,
     )
 
-    db_booking.save()
+    if (str(book.state) == "BookState.Available" and str(user.state) == "UserState.ok"):
+        db_booking.save()
+    elif str(book.state) != "BookState.Available":
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Book {book.state}"
+        )
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User has {user.state}"
+        )
 
     return booking_schema.Booking(
         id = db_booking.id,

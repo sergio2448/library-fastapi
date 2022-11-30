@@ -20,7 +20,7 @@ def add_booking(booking: booking_schema.BookingBase = Body(...)):
     return booking_service.add_booking(booking)
 
 @router.get(
-    "/bookings/{user_id}",
+    "/bookings/{user_id}/user",
     tags=["bookings"],
     status_code=status.HTTP_200_OK,
     response_model=List[booking_schema.Booking],

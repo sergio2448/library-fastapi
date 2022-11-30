@@ -68,15 +68,6 @@ def get_lending(
         gt=0
     )
 ):
-
-    return lending_service.get_lending(lending_id)
-
-@router.get(
-    "/lending/{user_id}/user",
-    tags=["lendings"],
-    status_code=status.HTTP_200_OK,
-    response_model=List[lending_schema.Lending],
-
     """
     ## Get a lending.
 
@@ -85,9 +76,14 @@ def get_lending(
     ### Returns
     - lending: Lending info
     """
+
     return lending_service.get_lending(lending_id)
 
-
+@router.get(
+    "/lending/{user_id}/user",
+    tags=["lendings"],
+    status_code=status.HTTP_200_OK,
+    response_model=List[lending_schema.Lending],
     dependencies=[Depends(get_db)]
 )
 def get_lending_user_id(
@@ -104,7 +100,7 @@ def get_lending_user_id(
     ### Args
     - user_id: user id.
     ### Returns
-    - array: whose elements are the lendings mada by the user with that id
+    - array: whose elements are the lendings made by the user with that id
     """
 
     return lending_service.get_lendings_by_user_id(user_id)

@@ -22,7 +22,7 @@ _Abrimos un entorno de python escribiendo _**python**_ o _**python3**_ en la ter
 from app.v1.scripts.create_tables import create_tables
 ```
 
-_Ahora las creamos ejecutando:_
+_Ahora creamos las tablas ejecutando:_
 ```python
 create_tables()
 ```

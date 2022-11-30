@@ -42,6 +42,7 @@ def add_lending(lending: lending_schema.LendingBase = Body(...)):
     dependencies=[Depends(get_db)]
 )
 def get_lendings():
+
     """
     ## Get all lendings.
 
@@ -50,6 +51,7 @@ def get_lendings():
     ### Returns
     - array: whose elements are the lendings(dicts with lending info)
     """
+
     return lending_service.get_lendings()
 
 
@@ -66,6 +68,15 @@ def get_lending(
         gt=0
     )
 ):
+
+    return lending_service.get_lending(lending_id)
+
+@router.get(
+    "/lending/{user_id}/user",
+    tags=["lendings"],
+    status_code=status.HTTP_200_OK,
+    response_model=List[lending_schema.Lending],
+
     """
     ## Get a lending.
 
@@ -76,11 +87,7 @@ def get_lending(
     """
     return lending_service.get_lending(lending_id)
 
-@router.get(
-    "/lending/{user_id}",
-    tags=["lendings"],
-    status_code=status.HTTP_200_OK,
-    response_model=lending_schema.Lending,
+
     dependencies=[Depends(get_db)]
 )
 def get_lending_user_id(
@@ -88,7 +95,9 @@ def get_lending_user_id(
         ...,
         gt=0
     )
-):  
+
+):
+
     """
     ## Get all lendings from a user.
 
@@ -97,6 +106,7 @@ def get_lending_user_id(
     ### Returns
     - array: whose elements are the lendings mada by the user with that id
     """
+
     return lending_service.get_lendings_by_user_id(user_id)
 
 @router.delete(
@@ -110,8 +120,10 @@ def delete_lending(
         ...,
         gt=0
     ),
-    
-):  
+
+    #current_user: User = Depends(get_current_user)
+):
+  
     """
     ## Delete a lending.
 
@@ -120,6 +132,7 @@ def delete_lending(
     ### Returns
     - string: that confirms the successfull delete.
     """
+
     lending_service.delete_lending(lending_id)
 
     return {

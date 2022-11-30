@@ -85,7 +85,7 @@ def get_book(
     return book_service.get_book(book_id)
 
 @router.patch(
-    "/{book_id}/state",
+    "/book/{book_id}/state",
     tags=["books"],
     status_code=status.HTTP_200_OK,
     response_model=book_schema.Book,
@@ -113,7 +113,8 @@ def update_book(
     return book_service.update_state_book(book_state, book_id)
 
 @router.delete(
-   " /{book_id}/",
+
+    "/book/{book_id}",
     tags=["books"],
     status_code=status.HTTP_200_OK,
     dependencies=[Depends(get_db)]

@@ -10,7 +10,7 @@ from app.v1.utils.db import get_db
 router = APIRouter(prefix="/api/v1")
 #Create User
 @router.post(
-    "/user/",
+    "/user",
     tags=["users"],
     status_code= status.HTTP_201_CREATED,
     response_model= user_schema.User,
@@ -18,6 +18,7 @@ router = APIRouter(prefix="/api/v1")
     summary= "Create a new user"
 )
 def create_user(user: user_schema.UserBase = Body(...)):
+
      """
     ## Create a new user in the app
 
@@ -33,10 +34,10 @@ def create_user(user: user_schema.UserBase = Body(...)):
     - created_at: datetime
     - updated_at: datime
 
-    ### Returns
-    - user: User info
+        Returns
+        - user: User info
     """
-     return user_service.create_user(user)
+    return user_service.create_user(user)
 
 # Update User
 @router.patch(
@@ -50,8 +51,10 @@ def edit_user(
     user_id: int = Path(
         ...,
         gt=0
-    ),
-    user: user_schema.UserBase = Body(...) ): 
+    ), 
+        user: user_schema.UserBase = Body(...) 
+    ):
+  
     """
     ## Update an User in the app
 
@@ -75,7 +78,7 @@ def edit_user(
 
 # Delete User
 @router.delete(
-    "/{user_id}/",
+    "/user/{user_id}/",
     tags=["users"],
     status_code=status.HTTP_200_OK,
     dependencies=[Depends(get_db)]
@@ -100,5 +103,5 @@ def delete_user(
 
 
     return {
-        'msg': 'user has been deleted successfully'
+        'msg': f'User with id: {user_id}, has been deleted successfully'
     }

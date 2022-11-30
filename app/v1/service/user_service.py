@@ -7,6 +7,17 @@ from app.v1.schema import user_schema
 
 # crear usuario
 def create_user(user: user_schema.User):
+
+    get_user = UserModel.filter((UserModel.email == user.email) | (UserModel.phone_number == user.phone_number)).first()
+    if get_user:
+        msg = f"User with email {user.email} already registered"
+        if get_user.phone_number == user.phone_number:
+            msg = f"User with phone number {user.phone_number} already registered"
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=msg
+        )
+
     db_user = UserModel(
         email = user.email,
         first_name = user.first_name,
@@ -36,6 +47,23 @@ def create_user(user: user_schema.User):
 # update user
 def update_user(user_id: int, user: user_schema.User):
         db_user = UserModel.filter(UserModel.id == user_id).first()
+
+        if db_user.email != user.email:
+            get_user = UserModel.filter((UserModel.email == user.email)).first()
+            if get_user:
+                msg = f"User with email {user.email} already registered"
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=msg
+                )
+        if db_user.phone_number != user.phone_number:
+            get_user = UserModel.filter((UserModel.phone_number == user.phone_number)).first()
+            if get_user:
+                msg = f"User with phone number {user.phone_number} already registered"
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=msg
+                )
 
         db_user.first_name = user.first_name
         db_user.last_name = user.last_name

@@ -17,6 +17,7 @@ router = APIRouter(prefix="/api/v1")
     dependencies=[Depends(get_db)]
 )
 def add_penalty(penalty: penalty_schema.PenaltyBase = Body(...)):
+
     """
     ## Create a new penalty in the app
 
@@ -31,6 +32,7 @@ def add_penalty(penalty: penalty_schema.PenaltyBase = Body(...)):
     ### Returns
     - penalty: penalty info
     """
+
     return penalty_service.add_penalty(penalty)
 
 @router.get(
@@ -41,6 +43,7 @@ def add_penalty(penalty: penalty_schema.PenaltyBase = Body(...)):
     dependencies=[Depends(get_db)]
 )
 def get_penalties():
+
     """
     ## Get all penalties
 
@@ -50,6 +53,7 @@ def get_penalties():
     ### Returns
     - array: whose elements are penalties(dicts).
     """  
+
     return penalty_service.get_penalties()
 
 
@@ -66,6 +70,15 @@ def get_penalty(
         gt=0
     )
 ):
+
+    return penalty_service.get_penalty(penalty_id)
+
+@router.get(
+    "/penalty/{user_id}/user",
+    tags=["penalties"],
+    status_code=status.HTTP_200_OK,
+    response_model=List[penalty_schema.Penalty],
+
     """
     ## Get a penalty by Id
 
@@ -89,7 +102,9 @@ def get_penalty_user_id(
         ...,
         gt=0
     )
-):  
+
+):
+  
     """
     ## Get all penalties from an user
 
@@ -99,6 +114,7 @@ def get_penalty_user_id(
     ### Returns
     - array: whose elements are the penalties of the given user.
     """
+
     return penalty_service.get_penalties_by_user_id(user_id)
 
 @router.delete(
@@ -112,7 +128,10 @@ def delete_penalty(
         ...,
         gt=0
     ),
-):  
+
+    #current_user: User = Depends(get_current_user)
+):
+ 
     
     """
     ## Delete a penalty
@@ -123,6 +142,7 @@ def delete_penalty(
     ### Returns
     - string: that confirms the successfull delete.
     """
+
     penalty_service.delete_penalty(penalty_id)
 
     return {

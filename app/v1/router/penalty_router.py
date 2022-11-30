@@ -70,15 +70,6 @@ def get_penalty(
         gt=0
     )
 ):
-
-    return penalty_service.get_penalty(penalty_id)
-
-@router.get(
-    "/penalty/{user_id}/user",
-    tags=["penalties"],
-    status_code=status.HTTP_200_OK,
-    response_model=List[penalty_schema.Penalty],
-
     """
     ## Get a penalty by Id
 
@@ -88,7 +79,16 @@ def get_penalty(
     ### Returns
     - penalty: penalty info
     """
+
     return penalty_service.get_penalty(penalty_id)
+
+@router.get(
+    "/penalty/{user_id}/user",
+    tags=["penalties"],
+    status_code=status.HTTP_200_OK,
+    response_model=List[penalty_schema.Penalty],
+)
+
 
 @router.get(
     "/penalty/{user_id}",

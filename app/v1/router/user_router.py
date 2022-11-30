@@ -19,7 +19,7 @@ router = APIRouter(prefix="/api/v1")
 )
 def create_user(user: user_schema.UserBase = Body(...)):
 
-     """
+    """
     ## Create a new user in the app
 
     ### Args

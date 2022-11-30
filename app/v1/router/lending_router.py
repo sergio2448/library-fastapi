@@ -69,14 +69,6 @@ def get_lending(
     )
 ):
 
-    return lending_service.get_lending(lending_id)
-
-@router.get(
-    "/lending/{user_id}/user",
-    tags=["lendings"],
-    status_code=status.HTTP_200_OK,
-    response_model=List[lending_schema.Lending],
-
     """
     ## Get a lending.
 
@@ -87,9 +79,15 @@ def get_lending(
     """
     return lending_service.get_lending(lending_id)
 
-
+@router.get(
+    "/lending/{user_id}/user",
+    tags=["lendings"],
+    status_code=status.HTTP_200_OK,
+    response_model=List[lending_schema.Lending],
     dependencies=[Depends(get_db)]
 )
+
+
 def get_lending_user_id(
     user_id: int = Path(
         ...,

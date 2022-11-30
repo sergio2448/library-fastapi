@@ -27,7 +27,7 @@ _Ahora las creamos ejecutando:_
 create_tables()
 ```
 
-_Levantamos el servidor con:_
+_Cerramos el ambiente de python y en el entorno virtal levantamos el servidor con:_
 
 ```
 uvicorn main:app --reload

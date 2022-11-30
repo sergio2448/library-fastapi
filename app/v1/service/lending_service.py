@@ -83,9 +83,11 @@ def get_lending(lending_id: int):
 
 def get_lendings_by_user_id(user_id: int):
 
+
     lendings = LendingModel.filter(LendingModel.user_id == user_id).order_by(LendingModel.start_at.desc())
 
     if not lendings:
+
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Lending not found"
@@ -93,8 +95,10 @@ def get_lendings_by_user_id(user_id: int):
 
     list_lendings = []
     for lending in lendings:
+
         list_lendings.append(
             lending_schema.Lending(
+
                 id = lending.id,
                 start_at = lending.start_at,
                 end_at = lending.end_at,
@@ -103,7 +107,7 @@ def get_lendings_by_user_id(user_id: int):
                 created_at = lending.created_at,
             )
         )
-    
+
     return list_lendings
 
 
@@ -116,4 +120,6 @@ def delete_lending(lending_id: int):
             detail="Lending not found"
         )
 
+
     lending.delete_instance()
+

@@ -5,6 +5,7 @@ from app.v1.models.penalty_model import Penalty as PenaltyModel
 from app.v1.models.lending_model import Lending as LendingModel
 
 
+
 def add_penalty(penalty: penalty_schema.Penalty):
 
     db_penalty = PenaltyModel(
@@ -84,10 +85,12 @@ def get_penalties_by_user_id(user_id: int):
 
     #penalties = 
     """ print(penalties)
+
     if not penalties:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Penalty not found"
+
         ) """
 
     list_penalties = []
@@ -109,7 +112,9 @@ def get_penalties_by_user_id(user_id: int):
                 state = penalty.state,
                 lending_id = penalty.lending_id.id,
                 created_at = penalty.created_at,
+
             ) """
+
 def delete_penalty(penalty_id: int):
     penalty = PenaltyModel.filter((PenaltyModel.id == penalty_id)).first()
 

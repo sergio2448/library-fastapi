@@ -17,6 +17,26 @@ router = APIRouter(prefix="/api/v1")
     dependencies=[Depends(get_db)]
 )
 def add_book(book: book_schema.BookBase = Body(...)):
+    """
+    ## Create a new book in the app
+
+    ### Args
+    The app can recive next fields into a JSON
+    - title: title of the book.
+    - author: book's author.
+    - category: book genre
+    - language: language in which it is written.
+    - state: state of de book: available, non available, booking.
+    - days_limit: days limit for lending.
+    - location: location in the library.
+    - pages_number: number of pages.
+    - edition: edition of the book
+    - created_at: datetime
+    - updated_at: datime
+
+    ### Returns
+    - book: Book info
+    """
     return book_service.add_book(book)
 
 @router.get(
@@ -27,6 +47,15 @@ def add_book(book: book_schema.BookBase = Body(...)):
     dependencies=[Depends(get_db)]
 )
 def get_books():
+    """
+    ## get all the books.
+
+    ### Args
+    Do not receive args
+
+    ### Returns
+    - Array:  array whose elementes are the Books info(dicts)
+    """
     return book_service.get_books()
 
 
@@ -43,6 +72,16 @@ def get_book(
         gt=0
     )
 ):
+    """
+    ## Get one Book.
+
+    ### Args
+    The app can recive next fields into a JSON
+    - book_id: id of the desired book.
+
+    ### Returns
+    - book: Book info
+    """
     return book_service.get_book(book_id)
 
 @router.patch(
@@ -58,11 +97,23 @@ def update_book(
         ...,
         gt=0
     ),
-    #current_user: User = Depends(get_current_user)
+    
 ):
+    """
+    ## update the state of a book.
+
+    ### Args
+    The app can recive next fields into a JSON
+    - book_id: id of the desired book.
+    - state: state of de book: available, non available, booking.
+
+    ### Returns
+    - book: Book info
+    """
     return book_service.update_state_book(book_state, book_id)
 
 @router.delete(
+
     "/book/{book_id}",
     tags=["books"],
     status_code=status.HTTP_200_OK,
@@ -73,8 +124,18 @@ def delete_book(
         ...,
         gt=0
     ),
-    #current_user: User = Depends(get_current_user)
+    
 ):
+    """
+    ## Delete a book.
+
+    ### Args
+    The app can recive next fields into a JSON
+    - book_id: id of the desired book.
+
+    ### Returns
+    - string: that confirms the successfull delete of the book.
+    """
     book_service.delete_book(book_id)
 
     return {

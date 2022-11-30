@@ -2,6 +2,11 @@
 
 _Se desarrolla un sistema (API) para la atención de préstamos de libros, con esta representación se logra modelar la atención a un usuario y almacenar su servicio histórico de préstamo, la misma cuenta con rutas (endpoints) para crear usuarios, registro y prestamos de libros y un sistema de multas._
 
+## Diagrama 📁
+
+![diagrama](https://user-images.githubusercontent.com/84557725/204821678-6b5cce1f-75dc-4244-8408-ab053143958f.png)
+
+
 ### Instalación y ejecución 🔧
 
 _Se sugiere el uso de un entorno virtual [venv](https://docs.python.org/es/3/tutorial/venv.html)_
@@ -20,7 +25,7 @@ uvicorn main:app --reload
 
 _Si todo salió bien en la ruta *http://localhost:8000/docs* debemos tener lo siguiente:_
 
-![Screenshot from 2022-11-30 08-59-34](https://user-images.githubusercontent.com/84557725/204815970-ab05052a-fd7e-4d92-bf79-867cd1317aef.png)
+![fastapi-doc](https://user-images.githubusercontent.com/84557725/204815970-ab05052a-fd7e-4d92-bf79-867cd1317aef.png)
 
 
 _Allí encontraremos la documentación de la API y los endpoints disponibles._

@@ -2,9 +2,14 @@ from fastapi import HTTPException, status
 
 from app.v1.schema import lending_schema
 from app.v1.models.lending_model import Lending as LendingModel
+from app.v1.service.book_service import get_book
+from app.v1.service.user_service import get_user_by_id
 
 
 def add_lending(lending: lending_schema.Lending):
+
+    book = get_book(lending.book_id)
+    user = get_user_by_id(lending.user_id)
 
     db_lending = LendingModel(
         start_at = lending.start_at,
@@ -14,7 +19,18 @@ def add_lending(lending: lending_schema.Lending):
         created_at = lending.created_at,
     )
 
-    db_lending.save()
+    if (str(book.state) == "BookState.Available" and str(user.state) == "UserState.ok"):
+        db_lending.save()
+    elif str(book.state) != "BookState.Available":
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Book {book.state}"
+        )
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User has {user.state}"
+        )
 
     return lending_schema.Lending(
         id = db_lending.id,

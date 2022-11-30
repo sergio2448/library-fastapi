@@ -44,6 +44,28 @@ def create_user(user: user_schema.User):
         updated_at=db_user.updated_at
     )
 
+def get_user_by_id(user_id: int):
+    db_user = UserModel.filter(UserModel.id == user_id).first()
+
+    if not db_user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
+    return user_schema.User(
+        id = db_user.id,
+        first_name= db_user.first_name,
+        last_name= db_user.last_name,
+        address=db_user.address,
+        email = db_user.email,
+        phone_number=db_user.phone_number,
+        state=db_user.state,
+        gender=db_user.gender,
+        created_at=db_user.created_at,
+        updated_at=db_user.updated_at
+    )
+
 # update user
 def update_user(user_id: int, user: user_schema.User):
         db_user = UserModel.filter(UserModel.id == user_id).first()

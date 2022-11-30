@@ -17,13 +17,23 @@ _Una vez activado el entorno virtual corremos el siguiente comando para instalar
 python -m pip install -r requirements.txt
 ```
 
-_Levantamos el servidor con:_
+_Abrimos un entorno de python escribiendo _**python**_ o _**python3**_ en la terminal según sea el caso. Con el siguiente comando importamos el script donde se configuran las tablas de la base de datos:_
+```python
+from app.v1.scripts.create_tables import create_tables
+```
+
+_Ahora creamos las tablas ejecutando:_
+```python
+create_tables()
+```
+
+_Cerramos el ambiente de python y en el entorno virtal levantamos el servidor con:_
 
 ```
 uvicorn main:app --reload
 ```
 
-_Si todo salió bien en la ruta *http://localhost:8000/docs* debemos tener lo siguiente:_
+_Si todo salió bien, en la ruta *http://localhost:8000/docs* debemos tener lo siguiente:_
 
 ![fastapi-doc](https://user-images.githubusercontent.com/84557725/204815970-ab05052a-fd7e-4d92-bf79-867cd1317aef.png)
 

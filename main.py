@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request
 from app.v1.router.user_router import router as user_router
 from app.v1.router.book_router import router as book_router
 from app.v1.router.lending_router import router as lending_router
+from app.v1.router.penalty_router import router as penalty_lending
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
@@ -15,4 +16,5 @@ async def internal_exception_handler(request: Request, exc: Exception):
 app.include_router(user_router)
 app.include_router(book_router)
 app.include_router(lending_router)
+app.include_router(penalty_lending)
 

@@ -24,14 +24,14 @@ def create_user(user: user_schema.UserBase = Body(...)):
     ### Args
     The app can recive next fields into a JSON
     - email: A valid email
-    -first_name: string minimun of 3 char
-    -last_name: string minimun of 3 char
-    -address: string minimun of 5 char
-    -phone_number: string minimun of 3 char
-    -state: string, "available" is deafult.
-    -gender: string "M" or "F"
-    -created_at, datetime
-    -updated_at, datime
+    - first_name: string minimun of 3 char
+    - last_name: string minimun of 3 char
+    - address: string minimun of 5 char
+    - phone_number: string minimun of 3 char
+    - state: string, "available" is deafult.
+    - gender: string "M" or "F"
+    - created_at: datetime
+    - updated_at: datime
 
     ### Returns
     - user: User info
@@ -51,7 +51,26 @@ def edit_user(
         ...,
         gt=0
     ),
-    user: user_schema.UserBase = Body(...) ):
+    user: user_schema.UserBase = Body(...) ): 
+    """
+    ## Update an User in the app
+
+    ### Args
+    The app can recive next fields into a JSON
+    - email: A valid email
+    - first_name: string minimun of 3 char
+    - last_name: string minimun of 3 char
+    - address: string minimun of 5 char
+    - phone_number: string minimun of 3 char
+    - state: string, "available" is deafult.
+    - gender: string "M" or "F"
+    - created_at: datetime
+    - updated_at: datime
+
+    ### Returns
+    - user: User info
+    
+    """
     return user_service.update_user(user_id, user)  
 
 # Delete User
@@ -66,9 +85,19 @@ def delete_user(
         ...,
         gt=0
     ),
-    #current_user: User = Depends(get_current_user)
-):
+    ):
+    """
+    ## Delete an user from the app
+
+    ### Args
+    The function receive
+    - user_id: from an registered user.
+
+    ### Returns
+    - string: that confirms a succesfull delete.
+    """
     user_service.delete_user(user_id)
+
 
     return {
         'msg': 'user has been deleted successfully'
